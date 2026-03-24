@@ -1,6 +1,7 @@
 #[cfg(feature = "nightly")]
 pub mod adf;
 pub mod adfn;
+pub mod adfn32;
 
 use alloc::vec::Vec;
 pub trait ForwardADTrait {

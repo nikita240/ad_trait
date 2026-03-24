@@ -135,7 +135,6 @@ extern crate std;
 pub mod differentiable_function;
 pub mod forward_ad;
 pub mod function_engine;
-#[cfg(feature = "std")]
 pub mod reverse_ad;
 pub mod simd;
 
@@ -372,7 +371,6 @@ pub enum ADNumMode {
     Float,
     /// Forward-mode automatic differentiation (tangent propagation).
     ForwardAD,
-    #[cfg(feature = "std")]
     /// Reverse-mode automatic differentiation (gradient backpropagation).
     ReverseAD,
     /// SIMD-accelerated numerical computation.
@@ -386,13 +384,14 @@ pub enum ADNumType {
     F64,
     /// Standard 32-bit float.
     F32,
-    #[cfg(feature = "std")]
     /// Reverse-mode AD type (`adr`).
     ADR,
     /// Forward-mode AD type (`adfn`).
     ADFN,
     /// Alternative forward-mode AD type.
     ADF,
+    /// Reverse-mode AD type with f32 storage (`adr32`).
+    ADR32,
     /// SIMD-based 64-bit float vector.
     F64XN,
 }

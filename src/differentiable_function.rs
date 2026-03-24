@@ -1,6 +1,5 @@
 use crate::forward_ad::adfn::adfn;
 use crate::forward_ad::ForwardADTrait;
-#[cfg(feature = "std")]
 use crate::reverse_ad::adr::{adr, GlobalComputationGraph};
 use crate::AD;
 use alloc::rc::Rc;
@@ -9,13 +8,13 @@ use alloc::vec::Vec;
 use alloc::{format, vec};
 use core::marker::PhantomData;
 use nalgebra::{DMatrix, DVector};
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "rand"))]
 use rand::distributions::Distribution;
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "rand"))]
 use rand::distributions::Uniform;
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "rand"))]
 use rand::thread_rng;
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "rand"))]
 use rand::Rng;
 #[cfg(feature = "std")]
 use std::sync::{Mutex, RwLock};
@@ -292,14 +291,11 @@ impl DerivativeMethodTrait for FiniteDifferencing {
     }
 }
 
-#[cfg(feature = "std")]
 pub struct DerivativeMethodClassReverseAD;
-#[cfg(feature = "std")]
 impl DerivativeMethodClass for DerivativeMethodClassReverseAD {
     type DerivativeMethod = ReverseAD;
 }
 
-#[cfg(feature = "std")]
 /// Computes derivatives using Reverse-mode Automatic Differentiation.
 ///
 /// This method uses a global computation graph to track operations and then
@@ -307,13 +303,11 @@ impl DerivativeMethodClass for DerivativeMethodClassReverseAD {
 /// for functions with few outputs and many inputs.
 #[derive(Clone)]
 pub struct ReverseAD {}
-#[cfg(feature = "std")]
 impl ReverseAD {
     pub fn new() -> Self {
         Self {}
     }
 }
-#[cfg(feature = "std")]
 impl DerivativeMethodTrait for ReverseAD {
     type T = adr;
 
@@ -903,6 +897,7 @@ pub(crate) fn get_tangent_matrix(n: usize, orthogonal: bool) -> DMatrix<f64> {
     };
 }
 
+#[allow(dead_code)]
 pub(crate) fn close_enough(a: &DVector<f64>, b: &DVector<f64>, d_theta: f64, d_ell: f64) -> bool {
     let a_n = a.norm();
     let b_n = b.norm();
